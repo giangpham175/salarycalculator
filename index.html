@@ -11,7 +11,7 @@
   <div class="container">
     <h1 class="mt-5 mb-3">Nhập số giờ làm việc:</h1>
     <div class="input-group mb-3">
-      <input type="text" class="form-control">
+      <input type="time" class="form-control">
       <div class="input-group-append">
         <button class="btn btn-primary">Tính Lương</button>
       </div>
@@ -37,8 +37,15 @@
 
     btnElement.addEventListener('click', calculateSalary)
 
+    function timeToDecimal(t) {
+    const arr = t.split(':')
+    const dec = parseInt((arr[1]/6)*10, 10)
+    
+    return parseFloat(parseInt(arr[0], 10) + '.' + (dec<10?'0':'') + dec)
+    }   
+
     function calculateSalary() {
-      const hoursWorked = parseInt(ipnElement.value)
+      const hoursWorked = timeToDecimal(ipnElement.value)
       const standardMinHour = 4
       const standardMaxHour = 6
 
