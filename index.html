@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tính Lương Bác Sĩ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="mt-5 mb-3">Nhập số giờ làm việc:</h1>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control">
+      <div class="input-group-append">
+        <button class="btn btn-primary">Tính Lương</button>
+      </div>
+    </div>
+    <p class="text-muted">(Chỉ dành cho Bác sĩ chính thức)</p>
+    <p id="result"></p>
+    
+    <div class="alert alert-primary" role="alert">
+      Lương của bác sĩ chính thức sẽ là 6000 cho 1 giờ <br>
+      Thời gian quy định làm việc <b>tối thiểu</b> 4 giờ 1 ngày <br>
+      <br>
+      Nếu bác sĩ làm <b>KHÔNG ĐỦ</b> 4 giờ 1 ngày, thì sẽ nhận lương là 5000 cho 1 giờ <br>
+      Nếu bác sĩ làm <b>ĐỦ</b> 4 giờ 1 ngày, thì sẽ nhận đủ lương 6.000 cho 1 giờ <br>
+      Đối với bác sĩ làm qua giờ thứ 5 và giờ thứ 6 vẫn được hưởng đầy đủ lương, cụ thể là 6000 cho 1 giờ, tức là nếu bác sĩ làm 6 giờ 1 ngày, thì bác sĩ nhận lương ngày hôm đó là 36000 <br>
+      Bắt đầu từ tiếng thứ 6 trở đi sẽ <b>chỉ còn lương trợ cấp</b> 2000 cho 1 giờ <br>
+    </div>
+  </div>
+
+  <script>
+    const ipnElement = document.querySelector('input')
+    const btnElement = document.querySelector('button')
+    const resultElement = document.querySelector('#result')
+
+    btnElement.addEventListener('click', calculateSalary)
+
+    function calculateSalary() {
+      const hoursWorked = parseInt(ipnElement.value)
+      const standardMinHour = 4
+      const standardMaxHour = 6
+
+      let salaryReceive = 0
+      const standardPay = 6000
+      const undertimePay = 5000
+      const supportPay = 2000
+
+      if (hoursWorked < standardMinHour) {
+        salaryReceive = hoursWorked * 5000
+      }
+      if (hoursWorked >= standardMinHour && hoursWorked <= standardMaxHour) {
+        salaryReceive = hoursWorked * 6000
+      }
+      if(hoursWorked > standardMaxHour){
+        const hoursOfSupport = hoursWorked - standardMaxHour
+        salaryReceive = (standardMaxHour * standardPay) + (hoursOfSupport * supportPay)
+      }
+
+      resultElement.innerHTML = `Salary Recieve: <b>${salaryReceive}</b>`
+    }
+  </script>
+</body>
+
+</html>
