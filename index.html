@@ -9,6 +9,15 @@
 
 <body>
   <div class="container">
+    <h1 class="mt-5 mb-3">Chọn chức vụ:</h1>
+    <div class="input-group mb-3">
+      <select id="jobRank" class="browser-default custom-select">
+        <option value="1">Viện trưởng</option>
+        <option value="2">Viện phó</option>
+        <option value="3" selected>Bác sĩ</option>
+      </select>
+    </div>
+
     <h1 class="mt-5 mb-3">Nhập số giờ làm việc:</h1>
     <div class="input-group mb-3">
       <input type="time" class="form-control">
@@ -27,6 +36,8 @@
       Nếu bác sĩ làm <b>ĐỦ</b> 4 giờ 1 ngày, thì sẽ nhận đủ lương 6.000 cho 1 giờ <br>
       Đối với bác sĩ làm qua giờ thứ 5 và giờ thứ 6 vẫn được hưởng đầy đủ lương, cụ thể là 6000 cho 1 giờ, tức là nếu bác sĩ làm 6 giờ 1 ngày, thì bác sĩ nhận lương ngày hôm đó là 36000 <br>
       Bắt đầu từ tiếng thứ 6 trở đi sẽ <b>chỉ còn lương trợ cấp</b> 2000 cho 1 giờ <br>
+      <br>
+      Lương của Viện Trưởng và Viện Phó <i>(đang cập nhật)</i> <br>
     </div>
   </div>
 
@@ -45,27 +56,36 @@
     }   
 
     function calculateSalary() {
-      const hoursWorked = timeToDecimal(ipnElement.value)
-      const standardMinHour = 4
-      const standardMaxHour = 6
+      const jobRank = document.getElementById("jobRank").value
+      if(jobRank == 3){
+        const hoursWorked = timeToDecimal(ipnElement.value)
+        if(!hoursWorked){
+          return resultElement.innerHTML = `<b><u>Nhập chính xác giờ làm việc.</u></b>`
+        }
+        const standardMinHour = 4
+        const standardMaxHour = 6
 
-      let salaryReceive = 0
-      const standardPay = 6000
-      const undertimePay = 5000
-      const supportPay = 2000
+        let salaryReceive = 0
+        const standardPay = 6000
+        const undertimePay = 5000
+        const supportPay = 2000
 
-      if (hoursWorked < standardMinHour) {
-        salaryReceive = hoursWorked * 5000
-      }
-      if (hoursWorked >= standardMinHour && hoursWorked <= standardMaxHour) {
-        salaryReceive = hoursWorked * 6000
-      }
-      if(hoursWorked > standardMaxHour){
-        const hoursOfSupport = hoursWorked - standardMaxHour
-        salaryReceive = (standardMaxHour * standardPay) + (hoursOfSupport * supportPay)
+        if (hoursWorked < standardMinHour) {
+          salaryReceive = hoursWorked * 5000
+        }
+        if (hoursWorked >= standardMinHour && hoursWorked <= standardMaxHour) {
+          salaryReceive = hoursWorked * 6000
+        }
+        if(hoursWorked > standardMaxHour){
+          const hoursOfSupport = hoursWorked - standardMaxHour
+          salaryReceive = (standardMaxHour * standardPay) + (hoursOfSupport * supportPay)
+        }
+        return resultElement.innerHTML = `Lương sẽ nhận được: <b>${salaryReceive}</b>`
       }
 
-      resultElement.innerHTML = `Salary Recieve: <b>${salaryReceive}</b>`
+      if(jobRank == 1 || jobRank == 2){
+        return resultElement.innerHTML = `<b><u>Lương của chức vụ này đang được cập nhật.</u></b>`
+      }
     }
   </script>
 </body>
