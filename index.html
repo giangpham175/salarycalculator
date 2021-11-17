@@ -37,7 +37,15 @@
       Đối với bác sĩ làm qua giờ thứ 5 và giờ thứ 6 vẫn được hưởng đầy đủ lương, cụ thể là 5000 cho 1 giờ, tức là nếu bác sĩ làm 6 giờ 1 ngày, thì bác sĩ nhận lương ngày hôm đó là 30000 <br>
       Bắt đầu từ tiếng thứ 6 trở đi sẽ <b>chỉ còn lương trợ cấp</b> 2000 cho 1 giờ <br>
       <br>
-      Lương của Viện Trưởng và Viện Phó <i>(đang cập nhật)</i> <br>
+      Lương của Viện trưởng sẽ là 8000 cho 1 giờ <br>
+      Thời gian quy định làm việc <b>tối thiểu</b> 4 giờ 1 ngày <br>
+      <br>
+      Nếu bác sĩ làm <b>KHÔNG ĐỦ</b> 4 giờ 1 ngày, thì sẽ nhận lương là 8000 cho 1 giờ <br>
+      Nếu bác sĩ làm <b>ĐỦ</b> 4 giờ 1 ngày, thì sẽ nhận đủ lương 7000 cho 1 giờ <br>
+      Đối với bác sĩ làm qua giờ thứ 5 và giờ thứ 6 vẫn được hưởng đầy đủ lương, cụ thể là 8000 cho 1 giờ, tức là nếu bác sĩ làm 6 giờ 1 ngày, thì bác sĩ nhận lương ngày hôm đó là 48000 <br>
+      Bắt đầu từ tiếng thứ 6 trở đi sẽ <b>chỉ còn lương trợ cấp</b> 2000 cho 1 giờ <br>
+      <br>
+      Lương của Viện Phó <i>(đang cập nhật)</i> <br>
     </div>
   </div>
 
@@ -82,8 +90,34 @@
         }
         return resultElement.innerHTML = `Lương sẽ nhận được: <b>${salaryReceive}</b>`
       }
+      
+      if(jobRank == 1){
+        const hoursWorked = timeToDecimal(ipnElement.value)
+        if(!hoursWorked){
+          return resultElement.innerHTML = `<b><u>Nhập chính xác giờ làm việc.</u></b>`
+        }
+        const standardMinHour = 4
+        const standardMaxHour = 6
 
-      if(jobRank == 1 || jobRank == 2){
+        let salaryReceive = 0
+        const standardPay = 8000
+        const undertimePay = 7000
+        const supportPay = 2000
+
+        if (hoursWorked < standardMinHour) {
+          salaryReceive = hoursWorked * undertimePay
+        }
+        if (hoursWorked >= standardMinHour && hoursWorked <= standardMaxHour) {
+          salaryReceive = hoursWorked * standardPay
+        }
+        if(hoursWorked > standardMaxHour){
+          const hoursOfSupport = hoursWorked - standardMaxHour
+          salaryReceive = (standardMaxHour * standardPay) + (hoursOfSupport * supportPay)
+        }
+        return resultElement.innerHTML = `Lương sẽ nhận được: <b>${salaryReceive}</b>`
+      }
+
+      if(jobRank == 2){
         return resultElement.innerHTML = `<b><u>Lương của chức vụ này đang được cập nhật.</u></b>`
       }
     }
